@@ -16,7 +16,7 @@ Because I wanted to dive into natural language processing with a simple categori
 ### Run the program with
 
 ```
-UCI_news_aggregator_DS_retriever.py rawData output
+python py3_aggregator.py rawData output
 ```
 
 ### Resulting Output
