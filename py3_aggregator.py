@@ -3,7 +3,7 @@ import multiprocessing
 import os
 import sys
 
-from newspaper import Article
+from newspaper import fulltext
 import requests
 
 
@@ -24,12 +24,9 @@ def process_raw(f):
             if request.status_code != 200:
                 print('The url {} does not exist. Skip.'.format(url))
                 continue
+            text = fulltext(request.text)
             try:
-                article = Article(url)
-                article.download()
-                article.parse()
-
-                writer.writerow([title, article.text, cat, id_])
+                writer.writerow([title, text, cat, id_])
             except Exception as _:
                 print('The url {} cannot be processed. Skip.'.format(url))
 
