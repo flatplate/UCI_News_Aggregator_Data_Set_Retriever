@@ -20,13 +20,15 @@ def process_raw(f):
             url = row[2]
             cat = row[4]
             id_ = row[5]
-            request = requests.get(url)
-            if request.status_code != 200:
-                print('The url {} does not exist. Skip.'.format(url))
-                continue
-            text = fulltext(request.text)
             try:
+                request = requests.get(url, timeout=30)
+                if request.status_code != 200:
+                    print('The url {} does not exist. Skip.'.format(url))
+                    continue
+                text = fulltext(request.text)
                 writer.writerow([title, text, cat, id_])
+            except requests.exceptions.Timeout as _:
+                print('The url {} timeout. Skip.'.format(url))
             except Exception as _:
                 print('The url {} cannot be processed. Skip.'.format(url))
 
